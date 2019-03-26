@@ -60,8 +60,10 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        order: Array(9).fill(null),
       }],
       xIsNext: true,
+
       stepNumber: 0,
     };
   }
@@ -71,6 +73,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0,this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice(); //Uses slice to return a copy of the array, instead of the reference
+    const position = i;
    
     if(calculateWinner(squares) || squares[i]) {
       return;
@@ -80,6 +83,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        order: position,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,  
@@ -99,8 +103,10 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
+      let col = parseInt(step.order / 3) + 1;
+      let row = step.order % 3 + 1;
       const desc = move ?
-        "Go to move #" + move:
+        "Col: " + col + " Row: " + row:
         "Go to game start";
       return (
         // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
