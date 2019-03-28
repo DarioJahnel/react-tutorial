@@ -23,16 +23,7 @@ class Board extends React.Component {
     );
   }
 
-  render() {
-    const winner = calculateWinner(this.props.squares);
-    let status;
-
-    if(winner) {
-      status = "Winner: " + winner; 
-    } else {
-      status = 'Next player: ' + (this.props.xIsNext? "X" : "O");
-    }
-
+  renderBoard() {
     let table = [];
     let square = [];
 
@@ -43,6 +34,21 @@ class Board extends React.Component {
       table.push(<div className="board-row">{square}</div>);
       square = [];
     }
+
+    return table;
+  }
+
+  render() {
+    const winner = calculateWinner(this.props.squares);
+    let status;
+
+    if(winner) {
+      status = "Winner: " + winner; 
+    } else {
+      status = 'Next player: ' + (this.props.xIsNext? "X" : "O");
+    }
+
+    let table = this.renderBoard();
     return (
       <div>
         {table}
@@ -106,22 +112,12 @@ class Game extends React.Component {
       const desc = move ?
         "Col: " + col + " Row: " + row:
         "Go to game start";
-        if(this.state.historyButtonClicked == move){
-          return (
-            // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
-            <li key={move}> 
-              <button onClick = {() => this.jumpTo(move)} class="bold">{desc}</button>
-            </li>
-          );
-        } else {
-          return (
-            // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
-            <li key={move}> 
-              <button onClick = {() => this.jumpTo(move)}>{desc}</button>
-            </li>
-          );
-        }
-        
+      return (
+        // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
+        <li key={move}> 
+          <button onClick = {() => this.jumpTo(move)} class={this.state.historyButtonClicked === move ? "bold" : ""}>{desc}</button>
+        </li>
+      );    
     });
 
 
