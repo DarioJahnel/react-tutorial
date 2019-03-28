@@ -66,6 +66,7 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      historyButtonClicked: null,
     };
   }
 
@@ -95,11 +96,8 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0,
+      historyButtonClicked: step,
     });
-  }
-
-  historyButtonHandler(move, key){
-
   }
   
   render() {
@@ -113,12 +111,22 @@ class Game extends React.Component {
       const desc = move ?
         "Col: " + col + " Row: " + row:
         "Go to game start";
-        return (
-          // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
-          <li key={move}> 
-            <button onClick = {() => this.jumpTo(move)} class="bold">{desc}</button>
-          </li>
-        );
+        if(this.state.historyButtonClicked == move){
+          return (
+            // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
+            <li key={move}> 
+              <button onClick = {() => this.jumpTo(move)} class="bold">{desc}</button>
+            </li>
+          );
+        } else {
+          return (
+            // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
+            <li key={move}> 
+              <button onClick = {() => this.jumpTo(move)}>{desc}</button>
+            </li>
+          );
+        }
+        
     });
 
 
