@@ -10,6 +10,8 @@ function Square(props) {
   );
 }
 
+
+
 class Board extends React.Component {
   
   renderSquare(i) {
@@ -63,7 +65,6 @@ class Game extends React.Component {
         selectedSquare: null,
       }],
       xIsNext: true,
-
       stepNumber: 0,
     };
   }
@@ -96,6 +97,10 @@ class Game extends React.Component {
       xIsNext: (step % 2) === 0,
     });
   }
+
+  historyButtonHandler(move, key){
+
+  }
   
   render() {
     const history = this.state.history;
@@ -103,17 +108,17 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      let col = parseInt(step.order / 3) + 1;
-      let row = step.order % 3 + 1;
+      let col = parseInt(step.selectedSquare / 3) + 1;
+      let row = step.selectedSquare % 3 + 1;
       const desc = move ?
         "Col: " + col + " Row: " + row:
         "Go to game start";
-      return (
-        // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
-        <li key={move}> 
-          <button onClick = {() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
+        return (
+          // react needs a key for dynamic lists, so it can remove, create or move elements in the list when rendering
+          <li key={move}> 
+            <button onClick = {() => this.jumpTo(move)} class="bold">{desc}</button>
+          </li>
+        );
     });
 
 
