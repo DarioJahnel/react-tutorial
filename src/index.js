@@ -33,24 +33,19 @@ class Board extends React.Component {
       status = 'Next player: ' + (this.props.xIsNext? "X" : "O");
     }
 
+    let table = [];
+    let square = [];
+
+    for (let row = 0; row < 3; row++) {
+      for (let column = 0; column < 3; column++) {
+        square.push(this.renderSquare(column + (row * 3)));
+      }
+      table.push(<div className="board-row">{square}</div>);
+      square = [];
+    }
     return (
       <div>
-        {/* <div className="status">{status}</div> */}
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {table}
       </div>
     );
   }
