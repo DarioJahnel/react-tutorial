@@ -15,8 +15,11 @@ function Square(props) {
 class Board extends React.Component {
   
   renderSquare(i) {
+
+    let key = "Square:" + i;
     return(
       <Square 
+      key= {key}
       value={this.props.squares[i]}
       onClick={() => this.props.onClick(i)}
       />
@@ -31,7 +34,8 @@ class Board extends React.Component {
       for (let column = 0; column < 3; column++) {
         square.push(this.renderSquare(column + (row * 3)));
       }
-      table.push(<div className="board-row">{square}</div>);
+      let key = "Row:" + row;
+      table.push(<div key={key} className="board-row">{square}</div>);
       square = [];
     }
 
@@ -68,6 +72,7 @@ class Game extends React.Component {
       xIsNext: true,
       stepNumber: 0,
       historyButtonClicked: null,
+      sortAscendant: true,
     };
   }
 
@@ -98,6 +103,12 @@ class Game extends React.Component {
       stepNumber: step,
       xIsNext: (step % 2) === 0,
       historyButtonClicked: step,
+    });
+  }
+  
+  sortHistory() {
+    this.setState({
+      sortAscendant: !this.state.sortAscendant,
     });
   }
   
@@ -140,6 +151,9 @@ class Game extends React.Component {
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
+        <div className="sort-moves">
+          <input type="button" onClick={() => this.sortHistory()} value="Sort"></input>
+        </div>  
       </div>
     );
   }
