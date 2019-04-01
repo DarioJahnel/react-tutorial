@@ -34,11 +34,7 @@ class Board extends React.Component {
     for (let row = 0; row < 3; row++) {
       for (let column = 0; column < 3; column++) {
         let number = column + (row * 3);
-        console.log("Lines")
-        console.log(lines[0]);
-        console.log(lines[1]);
-        console.log(lines[2]);
-        if (number === lines[0] || number === lines[1] || number === lines[2]) {
+        if (number === lines[0] || number === lines[1] || number === lines  [2]) {
           square.push(this.renderSquare(number, true));
         } else {
           square.push(this.renderSquare(number, false));
@@ -54,14 +50,7 @@ class Board extends React.Component {
 
   render() {
     const winner = calculateWinner(this.props.squares);
-    let status;
-
-    if(winner) {
-      status = "Winner: " + winner.winner; 
-    } else {
-      status = 'Next player: ' + (this.props.xIsNext? "X" : "O");
-    }
-
+  
     let table = this.renderBoard(winner ? winner.lines : [undefined,undefined,undefined]);
     return (
       <div>
@@ -143,8 +132,12 @@ class Game extends React.Component {
 
 
     let status;
-    if (winner) {
+    console.log("Winner? " + winner);
+    if (this.state.history.length === 10 && this.state.stepNumber === 9) {
+      status = "Draw"
+    } else if (winner){
       status = "Winner: " + winner.winner;
+      
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -183,6 +176,7 @@ function calculateWinner(squares) {
   ];
 
   let response = {};
+  let count = 0;
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -193,8 +187,11 @@ function calculateWinner(squares) {
       };
       return response;
     }
+    if(squares[a]){
+      count++;
+    }
   }
-  return null;
+    return null;
 }
 
 // ========================================
